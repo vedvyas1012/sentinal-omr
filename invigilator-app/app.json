@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "NEET Invigilator",
+    "slug": "neet-invigilator",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#1e3a8a"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.neet.invigilator"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1e3a8a"
+      },
+      "package": "com.neet.invigilator"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow NEET Invigilator to use the camera to scan OMR sheets and read student QR codes."
+        }
+      ]
+    ]
+  }
+}

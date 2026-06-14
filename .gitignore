@@ -1,0 +1,19 @@
+node_modules/
+client/dist/
+.env
+*.log
+
+# Signing keys — never commit the private key
+server/crypto/keys/
+
+# Hub agent runtime folders
+hub-agent/watch/processed/
+hub-agent/watch/failed/
+hub-agent/watch/*.jpg
+hub-agent/watch/*.jpeg
+hub-agent/watch/*.png
+
+.expo/
+
+# macOS
+.DS_Store

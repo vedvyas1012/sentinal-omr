@@ -1,0 +1,30 @@
+{
+  "name": "neet-omr",
+  "version": "1.0.0",
+  "description": "Secure OMR Workflow System for NEET examinations",
+  "scripts": {
+    "predev": "lsof -ti tcp:3001 | xargs kill -9 2>/dev/null; true",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "npm --prefix client run dev",
+    "install:all": "npm install && npm --prefix client install"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "jsqr": "^1.4.0",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.11.3",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.33.1",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

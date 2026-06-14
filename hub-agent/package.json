@@ -1,0 +1,12 @@
+{
+  "name": "hub-agent",
+  "version": "1.0.0",
+  "description": "Watches for OCR output files and auto-submits them to the central server",
+  "main": "watcher.js",
+  "scripts": {
+    "start": "node watcher.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
