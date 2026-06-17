@@ -22,6 +22,17 @@ git clone https://github.com/vedvyas1012/sentinal-omr.git /var/www/sentinal-omr
 cd /var/www/sentinal-omr
 ```
 
+## 1.5 Pre-flight check (run before anything else)
+
+A read-only safety check that confirms the deploy won't collide with other sites
+on the box (free port, valid nginx config, DB not already taken, tooling present):
+```bash
+bash deploy/preflight.sh
+```
+Resolve any `[FAIL]` before continuing. If port 3002 is taken, re-run everything
+with a different port, e.g. `PORT=3003 bash deploy/preflight.sh` (and update
+`ecosystem.config.js` + the nginx conf to match).
+
 ## 2. Database
 ```bash
 sudo -u postgres createdb neet_omr
