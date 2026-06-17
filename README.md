@@ -16,7 +16,7 @@ algorithm drift.
 
 ```
             EXAM CENTER (edge)                         HUB (central scan)
- ┌──────────────────────────────────┐      ┌────────────────────────────────────┐
+ ┌──────────────────────────────────┐      ┌───────────────────────────────────┐
  │  Invigilator app (Expo / mobile) │      │   Document scanner saves images     │
  │   • auto-detect student QR       │      │             │                       │
  │   • auto-capture sheet photo     │      │             ▼                       │
@@ -33,20 +33,20 @@ algorithm drift.
  └───────────────┬──────────────────┘      │   • confidence-gated answer diff   │
                  │ store (signed)           └───────────────┬────────────────────┘
                  ▼                                          │ matched / review / flagged
-        ┌──────────────────────────────────────────────────▼──────────┐
-        │                    PostgreSQL                                │
-        │   users · login_requests · scan_sessions · omr_records ·     │
-        │   audit_log                                                  │
-        └───────────────┬──────────────────────────────────────────────┘
-                         │
-        MATCHED ──► match_status = 'matched'  → authorized for grading
-        REVIEW  ──► match_status = 'review'   → ambiguous read, human adjudication
-        FLAGGED ──► match_status = 'flagged'  → audit_log insert, grading blocked
-                         │
-                 ┌───────▼────────────┐        ┌──────────────────────┐
-                 │  Official dashboard │        │  Hub monitoring panel │
-                 │  (read-only audit)  │        │  (read-only status)   │
-                 └─────────────────────┘        └──────────────────────┘
+         ┌──────────────────────────────────────────────────▼──────────┐
+         │                    PostgreSQL                                │
+         │   users · login_requests · scan_sessions · omr_records ·     │
+         │   audit_log                                                  │
+         └───────────────┬──────────────────────────────────────────────┘
+                          │
+         MATCHED ──► match_status = 'matched'  → authorized for grading
+         REVIEW  ──► match_status = 'review'   → ambiguous read, human adjudication
+         FLAGGED ──► match_status = 'flagged'  → audit_log insert, grading blocked
+                          │
+                  ┌───────▼────────────┐        ┌──────────────────────┐
+                  │  Official dashboard │        │  Hub monitoring panel │
+                  │  (read-only audit)  │        │  (read-only status)   │
+                  └─────────────────────┘        └──────────────────────┘
 ```
 
 Real-time login approval (invigilator → moderator) runs over Socket.IO, with
@@ -111,6 +111,14 @@ node watcher.js
 Point the document scanner's "scan to folder" output at `hub-agent/watch/`.
 Each `.jpg` / `.png` is uploaded automatically and moved to `processed/` or
 `failed/`.
+
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | 2026-06-17 | Production deployment with pm2 + nginx hardening and pre-flight checks — did this as the deadline got extended |
+| 0.9.0 | 2026-06-14 | Device testing with invigilator app LAN IP configuration |
+| 0.8.0 | 2026-06-14 | Initial release: Full OMR tampering detection system |
 
 ## Role Guide
 
