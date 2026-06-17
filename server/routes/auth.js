@@ -7,6 +7,10 @@ const { authenticate, requireRole, JWT_SECRET } = require('../auth/middleware');
 
 const router = express.Router();
 
+const PROD = process.env.NODE_ENV === 'production';
+// secure cookies over HTTPS in production (behind the nginx TLS proxy)
+const COOKIE_OPTS = { httpOnly: true, sameSite: 'lax', secure: PROD };
+
 function catchAsync(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
@@ -20,11 +24,7 @@ function issueToken(user, expiresIn) {
 }
 
 function setCookie(res, token, maxAgeSec) {
-  res.cookie('token', token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    maxAge: maxAgeSec * 1000,
-  });
+  res.cookie('token', token, { ...COOKIE_OPTS, maxAge: maxAgeSec * 1000 });
 }
 
 // Direct login for moderator / hub_operator / official
@@ -192,7 +192,7 @@ router.get(
       { expiresIn: '30m' }
     );
 
-    res.cookie('token', token, { httpOnly: true, sameSite: 'lax', maxAge: 30 * 60 * 1000 });
+    res.cookie('token', token, { ...COOKIE_OPTS, maxAge: 30 * 60 * 1000 });
 
     const responseData = { username: user.username, role: user.role, center_id: user.center_id };
     // Native clients can't receive httpOnly cookies — return the token in the body
@@ -203,7 +203,7 @@ router.get(
 );
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', COOKIE_OPTS);
   res.json({ success: true, data: { message: 'Logged out' } });
 });
 

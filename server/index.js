@@ -18,6 +18,10 @@ const templateRoutes = require('./routes/template');
 const app = express();
 const server = http.createServer(app);
 
+// Behind the nginx TLS reverse proxy in production: trust X-Forwarded-* so
+// secure cookies and client IPs are handled correctly.
+if (process.env.NODE_ENV === 'production') app.set('trust proxy', 1);
+
 if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
   console.error('[FATAL] JWT_SECRET env var is not set. Refusing to start in production without it.');
   process.exit(1);
